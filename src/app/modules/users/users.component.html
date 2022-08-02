@@ -1,0 +1,5 @@
+<ng-container *ngIf="(users$ | async) as users">
+  <ng-container *ngFor="let user of users">
+    <h3>{{user.firstName}}</h3>
+  </ng-container>
+</ng-container>

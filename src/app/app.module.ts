@@ -3,29 +3,31 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import { LoginComponent } from './login/login.component';
+import { SignInComponent } from './modules/sign-in/sign-in.component';
 import {RouterModule, Routes} from "@angular/router";
-import { EmptyComponent } from './empty/empty.component';
-import { UsersComponent } from './users/users.component';
+import { MainLayoutComponent } from './components/main-layout/main-layout.component';
+import { UsersComponent } from './modules/users/users.component';
+import {AuthGuard} from "./guard/auth.guard";
+import {HttpClientModule} from "@angular/common/http";
 
 const routes: Routes = [
   {
     path: '',
-    component: EmptyComponent,
+    component: MainLayoutComponent,
     children: [
       {
         path: 'users',
         canActivate: [AuthGuard],
-        loadChildren: () => import('app/modules/smer-dairy/smer-dairy.module').then(m => m.СоздайНовыйМодуль),
+        loadChildren: () => import('./modules/users/users.module').then(m => m.UsersModule),
       },
       {
         path: 'sign-in',
-        loadChildren: () => import('app/modules/auth/sign-in/sign-in.module').then(m => m.МодульДляЛогина),
+        loadChildren: () => import('./modules/sign-in/sign-in.module').then(m => m.SignInModule),
       },
-      { path: '', redirectTo: 'users', pathMatch: 'full' },
+      { path: '', redirectTo: 'sign-in', pathMatch: 'full' },
       {
         path: '**',
-        redirectTo: 'users',
+        redirectTo: 'sign-in',
       },
     ],
   },
@@ -34,12 +36,13 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
-    EmptyComponent,
+    SignInComponent,
+    MainLayoutComponent,
     UsersComponent
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     RouterModule.forRoot(routes),
     FormsModule,
     ReactiveFormsModule

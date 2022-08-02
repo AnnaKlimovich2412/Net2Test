@@ -1,0 +1,6 @@
+
+  <form [formGroup]="signInForm" class="form">
+    <input formControlName="username" type="email"/>
+    <input formControlName="password" type="password"/>
+    <button type="submit" (click)="signIn()" [disabled]="!signInForm.valid">Login</button>
+  </form>
