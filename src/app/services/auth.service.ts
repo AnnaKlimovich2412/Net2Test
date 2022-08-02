@@ -3,6 +3,7 @@ import {Observable, tap} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../environments/environment";
 import {UserService} from "./user.service";
+import {User} from "../models/user.model";
 
 
 @Injectable({
@@ -17,6 +18,7 @@ export class AuthService {
       tap(res => {
         if (res.success) {
           this.userService.isLoggedIn$.next(true);
+          this.userService.userToken$.next(res.token)
         }
       })
     );
